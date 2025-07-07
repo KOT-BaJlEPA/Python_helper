@@ -1,5 +1,5 @@
 from PyQt5 import QtCore, QtWidgets
-from _1_1_2_OOP_style_create_window import MyWindow
+from _1_OOP_style_create_window import MyWindow
 import sys
 import time
 
@@ -16,12 +16,28 @@ class MyDialog(QtWidgets.QDialog):
         self.setLayout(mainBox)
         self.button.clicked.connect(self.on_clicked)
     def on_clicked(self):
-        self.myWidget.label.setText("Новая надпись")
-        self.button.setDisabled(True)
+        # self.on_change()
+        # self.on_change2()
+        # self.myWidget.label.setText("Новая надпись")
+        # self.button.setDisabled(True)
+        self.on_change2()
+        QtWidgets.qApp.processEvents()# необходимо для перезапуска цикла
+        self.on_change()
         # если раскомментировать то текст "Новая надпись" мы не увидим т.к. значение окна поменяется когда функция on_clicked() закончит свою работу
         # time.sleep(10)
         # self.button.setDisabled(False)
         # self.myWidget.label.setText("Old text")
+
+    def on_change(self):
+        time.sleep(1)
+        self.button.setDisabled(False)
+        self.myWidget.label.setText("Old text")
+
+    def on_change2(self):
+        time.sleep(1)
+        self.myWidget.label.setText("Новая надпись")
+        self.button.setDisabled(True)
+
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
     window = MyDialog()
