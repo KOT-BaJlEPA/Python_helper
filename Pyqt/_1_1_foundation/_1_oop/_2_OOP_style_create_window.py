@@ -6,7 +6,7 @@ import time
 
 class MyDialog(QtWidgets.QDialog):
     def __init__(self, parent=None):
-        QtWidgets.QDialog.__init__(self, parent)
+        QtWidgets.QDialog.__init__(self, parent) # parent=None без родительского окна
         self.myWidget = MyWindow()
         self.myWidget.vbox.setContentsMargins(50, 100, 200, 400) #отступ виджета от остальных элементов(л,в,п,н)
         self.button = QtWidgets.QPushButton("&Изменить надпись")

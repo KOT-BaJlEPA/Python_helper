@@ -3,7 +3,7 @@ import sys
 
 class MyWindow(QtWidgets.QWidget):
     def __init__(self, parent=None):
-        QtWidgets.QWidget.__init__(self, parent)
+        QtWidgets.QWidget.__init__(self, parent) # parent=None без родительского окна
         self.label = QtWidgets.QLabel("Привет, мир!")
         self.label.setAlignment(QtCore.Qt.AlignHCenter)
         self.btnQuit = QtWidgets.QPushButton("&Закрыть окно")
