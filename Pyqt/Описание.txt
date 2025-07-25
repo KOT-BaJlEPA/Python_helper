@@ -35,3 +35,5 @@ QtMultimediaWidgets — реализует высокоуровневые ком
  Qt — включает классы из всех модулей сразу.
 
  QtWidgets.qApp.processEvents()# необходимо для перезапуска цикла
+
+window.raise_() - фокус на окно
