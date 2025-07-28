@@ -2,60 +2,60 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 import sys
 
 
-class MainWindow(QtWidgets.QMainWindow):
+class SendLoginWindow(QtWidgets.QMainWindow):
     def __init__(self, *args):
         super().__init__()
-        self.setWindowTitle("Помогалка v 2.0")
-        self.resize(300, 200)
-
-        # Словарь для хранения открытых окон
-        self.open_windows = {}
+        self.setWindowTitle('Отправить логин')
+        self.resize(300, 100) # минимальные ширина и длинна
 
         # Центральный виджет и основной layout
         central_widget = QtWidgets.QWidget()
         self.setCentralWidget(central_widget)
         self.vbox = QtWidgets.QVBoxLayout(central_widget)
+        # Поля для ввода логина и почты
+        self.input_login = QtWidgets.QLineEdit()
+        self.input_login.setPlaceholderText('Введите логин')
+        self.input_email = QtWidgets.QLineEdit()
+        self.input_email.setPlaceholderText('Введите почту')
+        # Кнопки отправить и стереть
+        self.btn_send = QtWidgets.QPushButton('Отправить')
+        self.btn_send.clicked.connect(self.send_login)
+        self.btn_clear = QtWidgets.QPushButton('Очистить')
+        self.btn_clear.clicked.connect(self.clear_input)
+        # Поле отображения ошибок и хода выполнения программы (2 строчки + 10px отступы)
+        self.description_and_error = QtWidgets.QLabel('<center>Пока ошибок нет</center>')
+        # self.description_and_error = QtWidgets.QTextEdit()
+        # self.description_and_error.setReadOnly(True)
+        # self.description_and_error.setText('Пока ошибок нет')
+        # font_metrics = self.description_and_error.fontMetrics()
+        # line_height = font_metrics.lineSpacing()
+        # self.description_and_error.setFixedHeight(2 * line_height + 10)
+        # Добавляем виджеты в layout
+        self.vbox.addWidget(self.input_login)
+        self.vbox.addWidget(self.input_email)
+        self.vbox.addWidget(self.btn_send)
+        self.vbox.addWidget(self.btn_clear)
+        self.vbox.addWidget(self.description_and_error)
 
-        for btn_name in args:
-            button = QtWidgets.QPushButton(btn_name)
-            button.clicked.connect(lambda checked, name=btn_name: self.on_button_click(name))
-            self.vbox.addWidget(button)
+    def send_login(self):
+        login = self.input_login.text()
+        email = self.input_email.text()
+        self.description_and_error.setText('Логин: ' + login + 'отправлен\nпочта : ' + email)
 
-    def on_button_click(self, name):
-        # Если окно с таким именем уже существует
-        if name in self.open_windows:
-            window = self.open_windows[name]
-            window.activateWindow()  # Активируем окно
-            window.raise_()  # Поднимаем на передний план
-            return
+    def clear_input(self):
+        self.description_and_error.clear()
+        self.description_and_error.setText('Пока ошибок нет')
+        self.input_login.clear()
+        self.input_email.clear()
 
-        # Создаем новое окно
-        new_window = QtWidgets.QMainWindow()
-        new_window.setWindowTitle(name)
-        new_window.resize(200, 150)
 
-        # Добавляем метку с названием кнопки
-        label = QtWidgets.QLabel(f"Это окно кнопки: {name}")
-        label.setAlignment(QtCore.Qt.AlignCenter)
 
-        # Устанавливаем центральный виджет
-        central_widget = QtWidgets.QWidget()
-        new_window.setCentralWidget(central_widget)
-        layout = QtWidgets.QVBoxLayout(central_widget)
-        layout.addWidget(label)
 
-        # Сохраняем ссылку на окно
-        self.open_windows[name] = new_window
 
-        # При закрытии окна удаляем его из словаря
-        new_window.destroyed.connect(lambda: self.open_windows.pop(name, None))
-
-        # Показываем новое окно
-        new_window.show()
 
 
 if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
-    window = MainWindow('btn_1', 'btn_2', 'btn_3', 'btn_4')
+    window = SendLoginWindow()
     window.show()
     sys.exit(app.exec_())
